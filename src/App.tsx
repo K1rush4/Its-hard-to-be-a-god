@@ -1,16 +1,14 @@
 import './App.css';
 import SimulationContainer from './components/SimulationContainer';
+import StatusBar from "./components/StatusBar.tsx";
+import HeaderContainer from "./components/HeaderContainer.tsx";
 
 function App() {
   return (
     <div className="app">
-      {/* Заголовок во всю ширину */}
-      <header className="header">
-        <h1>Эволюционная Симуляция</h1>
-      </header>
-
-      {/* Контейнер с полем и управлением */}
-      <SimulationContainer />
+      <HeaderContainer/>
+      <SimulationContainer/>
+      <StatusBar/>
     </div>
   );
 }
