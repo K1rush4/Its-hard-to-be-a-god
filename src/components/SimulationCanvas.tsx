@@ -64,7 +64,6 @@ const SimulationCanvas = () => {
     return () => {
       if (appRef.current) {
         try {
-          // Явно говорим TypeScript, что destroy существует
           (appRef.current as Application).destroy(true, true);
         } catch (cleanupError) {
           console.warn('Error during PixiJS cleanup:', cleanupError);
@@ -76,9 +75,7 @@ const SimulationCanvas = () => {
   }, []);
 
   return (
-    <div ref={canvasRef} className="w-full h-full">
-      {/* PixiJS canvas будет добавлен сюда */}
-    </div>
+    <div ref={canvasRef} className="w-full h-full" />
   );
 };
 
