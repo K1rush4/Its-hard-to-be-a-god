@@ -1,9 +1,10 @@
 const SimulationCanvas = () => {
   return (
-    <div className="simulation-canvas">
-      Поле эволюции
+    <div className="">
+      SimulationCanvas
     </div>
-  );
-};
+  )
+}
+
 
 export default SimulationCanvas;

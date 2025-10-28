@@ -1,7 +1,7 @@
 const ControlsPanel = () => {
   return (
     <div className="controls-panel">
-      Панель управления
+      ControlsPanel
     </div>
   );
 };
