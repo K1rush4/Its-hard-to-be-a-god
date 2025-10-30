@@ -1,32 +1,41 @@
 import {Application, extend, useTick} from "@pixi/react";
 import {Container, Graphics, Sprite} from 'pixi.js';
-import {useCallback} from "react";
+import {useCallback, useState} from "react";
 
 extend({Container, Graphics, Sprite});
 
 const SimulationCanvas = () => {
 
     const ChildComponent1 = () => {
+      const [position, setPosition] = useState({x:200,y:200});
       const redCircle = useCallback(graphics => {
         graphics.clear()
         graphics.setFillStyle({color: 'red'})
-        graphics.circle(200, 400, 10)
+        graphics.circle(position.x, position.y, 10)
         graphics.fill()
-      }, [])
+      }, [position])
 
       //первый вариант ticker
-      useTick(() => {
-        console.log('This will be logged on every tick1')
-      });
+      // useTick(() => {
+      //   console.log('This will be logged on every tick1')
+      // });
 
       //второй вариант ticker
       const testCallback = useCallback(
-        () => console.log('This will be logged on every tick2')
-        , []
+        (delta) => setPosition(prev => {
+          let newX = prev.x + 0.1;
+          let newY = prev.y + 0.1;
+
+          if (newX > 800) newX = 0;
+          if (newY > 600) newY = 0;
+          return { x: newX, y: newY };
+        })
+        , [position]
       )
       useTick(testCallback)
+      console.log(position)
 
-      return <pixiGraphics draw={redCircle}/>;
+      return <pixiGraphics draw={redCircle} />;
     };
 
     const ChildComponent2 = () => {
@@ -44,7 +53,8 @@ const SimulationCanvas = () => {
           height={600}
           backgroundColor={0xFFE4C4}
         >
-          <ChildComponent1/>
+          <ChildComponent1
+          />
           <ChildComponent2/>
         </Application>
       </div>
