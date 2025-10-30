@@ -1,78 +1,29 @@
-import {
-  Application,
-  extend,
-} from '@pixi/react';
-import {
-  Container,
-  Graphics,
-  Sprite,
-} from 'pixi.js';
-import {
-  Assets,
-  Texture,
-} from 'pixi.js';
-import {
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import { useTick } from '@pixi/react';
-
-
-function BunnySprite() {
-  // The Pixi.js `Sprite`
-  const spriteRef = useRef(null)
-
-  const [texture, setTexture] = useState(Texture.EMPTY)
-  const [isHovered, setIsHover] = useState(false)
-  const [isActive, setIsActive] = useState(false)
-
-  // Preload the sprite if it hasn't been loaded yet
-  useEffect(() => {
-    if (texture === Texture.EMPTY) {
-      Assets
-        .load('https://pixijs.com/assets/bunny.png')
-        .then((result) => {
-          setTexture(result)
-        });
-    }
-  }, [texture]);
-
-  return (
-    <pixiSprite
-      ref={spriteRef}
-      anchor={0.5}
-      eventMode={'static'}
-      onClick={(event) => setIsActive(!isActive)}
-      onPointerOver={(event) => setIsHover(true)}
-      onPointerOut={(event) => setIsHover(false)}
-      scale={isActive ? 1 : 1.5}
-      texture={texture}
-      x={100}
-      y={100} />
-  );
-}
-
-
-
+import {Application, extend} from "@pixi/react";
+import {Container, Graphics, Sprite} from 'pixi.js';
+import {useCallback} from "react";
+extend({Container, Graphics, Sprite});
 
 const SimulationCanvas = () => {
 
-// extend tells @pixi/react what Pixi.js components are available
-  extend({
-    Container,
-    Graphics,
-    Sprite,
-  });
+  const redCircle = useCallback(graphics => {
+    graphics.clear()
+    graphics.setFillStyle({color: 'red'})
+    graphics.circle(200, 400, 10)
+    graphics.fill()
+  }, [])
 
   return (
-    // We'll wrap our components with an <Application> component to provide
-    // the Pixi.js Application context
-    <Application>
-      <BunnySprite/>
-    </Application>
+    <div className="relative w-full h-full">
+      <Application>
+        <pixiGraphics draw={(graphics) => {
+          graphics.clear();
+          graphics.circle(200, 200, 10);
+          graphics.fill(0x0000ff);
+        }}/>
+        <pixiGraphics draw={redCircle}/>
+      </Application>
+    </div>
   );
+  };
 
-}
-
-export default SimulationCanvas;
+  export default SimulationCanvas;
