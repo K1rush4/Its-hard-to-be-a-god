@@ -6,17 +6,30 @@ extend({Container, Graphics, Sprite});
 
 const SimulationCanvas = () => {
 
-  const ChildComponent1 = () => {
-    const redCircle = useCallback(graphics => {
-      graphics.clear()
-      graphics.setFillStyle({color: 'red'})
-      graphics.circle(200, 400, 10)
-      graphics.fill()
-    }, [])
-    return <pixiGraphics draw={redCircle}/>;
-  };
+    const ChildComponent1 = () => {
+      const redCircle = useCallback(graphics => {
+        graphics.clear()
+        graphics.setFillStyle({color: 'red'})
+        graphics.circle(200, 400, 10)
+        graphics.fill()
+      }, [])
 
-  const ChildComponent2 = () => {
+      //первый вариант ticker
+      useTick(() => {
+        console.log('This will be logged on every tick1')
+      });
+
+      //второй вариант ticker
+      const testCallback = useCallback(
+        () => console.log('This will be logged on every tick2')
+        , []
+      )
+      useTick(testCallback)
+
+      return <pixiGraphics draw={redCircle}/>;
+    };
+
+    const ChildComponent2 = () => {
       return <pixiGraphics draw={(graphics) => {
         graphics.clear();
         graphics.circle(200, 200, 10);
@@ -36,7 +49,7 @@ const SimulationCanvas = () => {
         </Application>
       </div>
     )
-      ;
-  };
+  }
+;
 
-  export default SimulationCanvas;
+export default SimulationCanvas;
